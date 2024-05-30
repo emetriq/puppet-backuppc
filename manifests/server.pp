@@ -234,8 +234,9 @@ class backuppc::server (
 ) {
   $os_family = $facts['os']['family']
   $os_major = $facts['os']['release']['major']
-  $os = "${os_family}-${os_major}"
-  $supported = ['RedHat-8', 'Debian-11', 'Debian-22.04']
+  $os_name = $facts['os']['name']
+  $os = "${os_name}-${os_major}"
+  $supported = ['RedHat-8', 'Debian-11', 'Ubuntu-20.04', 'Ubuntu-22.04']
   if ! ($os in $supported) {
     fail("Unsupported OS family-major ${os}, only support ${supported.join(',')}")
   }
