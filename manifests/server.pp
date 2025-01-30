@@ -152,6 +152,7 @@ class backuppc::server (
   String $package_name = 'BackupPC',
   Boolean $manage_repo = true,
   String $service_name = 'backuppc',
+  Boolean $service_enable = true,
   Stdlib::Absolutepath $config_dir = '/etc/BackupPC',
   Boolean $replace_config = true,
   Boolean $manage_topdir = true,
@@ -325,9 +326,16 @@ class backuppc::server (
     require => Package[$package_name],
   }
 
-  service { $service_name:
-    ensure => 'running',
-    enable => true,
+  if $service_enable {
+    service { $service_name:
+      ensure => 'running',
+      enable => true,
+    }
+  } else {
+    service { $service_name:
+      ensure => 'stopped',
+      enable => true,
+    }
   }
 
   exec { 'backuppc reload':
