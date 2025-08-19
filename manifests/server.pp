@@ -151,6 +151,7 @@
 class backuppc::server (
   String $package_name = 'BackupPC',
   Boolean $manage_repo = true,
+  Boolean $service_ensure_running = true,
   String $service_name = 'backuppc',
   Stdlib::Absolutepath $config_dir = '/etc/BackupPC',
   Boolean $replace_config = true,
@@ -325,7 +326,7 @@ class backuppc::server (
   }
 
   service { $service_name:
-    ensure => 'running',
+    ensure => $service_ensure_running,
     enable => true,
   }
 
