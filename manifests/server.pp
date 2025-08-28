@@ -331,7 +331,7 @@ class backuppc::server (
   }
 
   exec { 'backuppc reload':
-    command     => "systemctl reload-or-restart ${service_name}",
+    command     => $service_ensure_running ? { false => "/bin/true", default => "systemctl reload-or-restart ${service_name}" },
     path        => '/usr/bin:/bin:/usr/sbin:/sbin',
     refreshonly => true,
   }
