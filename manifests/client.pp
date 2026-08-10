@@ -148,6 +148,7 @@ class backuppc::client (
   Array $system_additional_commands = [],
   Array $system_additional_commands_noexec = [],
   Boolean $manage_sudo = false,
+  Boolean $requiretty_option = true,
   Boolean $manage_rsync = true,
   Stdlib::Absolutepath $rsync_path = '/usr/bin/rsync',
   Stdlib::Absolutepath $tar_path = '/bin/gtar',
