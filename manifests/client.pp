@@ -250,18 +250,25 @@ class backuppc::client (
       $sudo_ensure = 'absent'
     }
 
+    # Ubuntu 26.04, does not support the legacy requiretty option
+    if $requiretty_option {
+      $sudo_defaults = [
+        "Defaults:${system_account} !requiretty",
+      ]
+    } else {
+      $sudo_defaults = []
+    }
+
     sudo::conf { 'backuppc':
       ensure  => $sudo_ensure,
-      content => [
-        "Defaults:${system_account} !requiretty",
+      content => $sudo_defaults + [
         "${system_account} ALL=(ALL:ALL) NOPASSWD: ${sudo_commands}",
       ],
     }
 
     sudo::conf { 'backuppc_noexec':
       ensure  => $ensure,
-      content => [
-        "Defaults:${system_account} !requiretty",
+      content => $sudo_defaults + [
         "${system_account} ALL=(ALL:ALL) NOEXEC:NOPASSWD: ${sudo_commands_noexec}",
       ],
     }
