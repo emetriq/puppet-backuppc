@@ -148,7 +148,6 @@ class backuppc::client (
   Array $system_additional_commands = [],
   Array $system_additional_commands_noexec = [],
   Boolean $manage_sudo = false,
-  Boolean $requiretty_option = true,
   Boolean $manage_rsync = true,
   Stdlib::Absolutepath $rsync_path = '/usr/bin/rsync',
   Stdlib::Absolutepath $tar_path = '/bin/gtar',
@@ -252,7 +251,7 @@ class backuppc::client (
     }
 
     # Ubuntu 26.04, does not support the legacy requiretty option
-    if $requiretty_option {
+    if $facts['os']['name'] == 'Ubuntu' and versioncmp($facts['os']['release']['major'], '26') >= 0 {
       $sudo_defaults = [
         "Defaults:${system_account} !requiretty",
       ]
