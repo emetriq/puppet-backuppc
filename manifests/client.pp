@@ -252,11 +252,11 @@ class backuppc::client (
 
     # Ubuntu 26.04, does not support the legacy requiretty option
     if $facts['os']['name'] == 'Ubuntu' and versioncmp($facts['os']['release']['major'], '26') >= 0 {
+      $sudo_defaults = []
+    } else {
       $sudo_defaults = [
         "Defaults:${system_account} !requiretty",
       ]
-    } else {
-      $sudo_defaults = []
     }
 
     sudo::conf { 'backuppc':
